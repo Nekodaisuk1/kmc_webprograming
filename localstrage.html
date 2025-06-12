@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todoリスト</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #taskInput {
+            padding: 12px;
+            width: calc(100% - 120px);
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        #addTaskButton {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #addTaskButton:hover {
+            background-color: #0056b3;
+        }
+        #taskList {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        #taskList li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            position: relative;
+        }
+        .task-text {
+            flex: 1;
+        }
+        .task-time {
+            font-size: 12px;
+            color: #888;
+            margin-left: 5px;
+            margin-right: 20px;
+            white-space: nowrap;
+        }
+        #taskList button {
+            padding: 6px 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #taskList button:hover {
+            background-color: #a71d2a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Todoリスト</h1>
+        <div style="display: flex; align-items: center;">
+            <input type="text" id="taskInput" placeholder="タスクを入力">
+            <button id="addTaskButton">追加</button>
+        </div>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+        const taskInput = document.getElementById('taskInput');
+        const addTaskButton = document.getElementById('addTaskButton');
+        const taskList = document.getElementById('taskList');
+
+        function renderTasks() {
+            taskList.innerHTML = '';
+            tasks.forEach((taskObj, index) => {
+                const li = document.createElement('li');
+
+                const taskText = document.createElement('span');
+                taskText.className = 'task-text';
+                taskText.textContent = taskObj.task;
+
+                const taskTime = document.createElement('span');
+                taskTime.className = 'task-time';
+                taskTime.textContent = taskObj.time;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = '削除';
+                deleteButton.onclick = () => {
+                    tasks.splice(index, 1);
+                    localStorage.setItem('tasks', JSON.stringify(tasks));
+                    renderTasks();
+                };
+
+                li.appendChild(taskText);
+                li.appendChild(taskTime);
+                li.appendChild(deleteButton);
+                taskList.appendChild(li);
+            });
+        }
+
+        addTaskButton.onclick = () => {
+            const task = taskInput.value.trim();
+            if (task) {
+                const time = new Date().toLocaleString('ja-JP', { hour12: false });
+                tasks.push({ task, time });
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+                renderTasks();
+                taskInput.value = '';
+            }
+        };
+
+        renderTasks();
+    </script>
+</body>
+</html>

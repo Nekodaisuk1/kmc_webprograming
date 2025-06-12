@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .squares {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            .squares div {
+                width: 50px;
+                height: 50px;
+                display: inline-block;
+                margin: 5px;
+                background-color: gray;
+            }
+        </style>
+        <script>
+            let current_box = 0;
+
+            function getRandomColor() {
+                const letters = '0123456789ABCDEF';
+                let color = '#';
+                for (let i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const boxes = document.querySelectorAll('.squares div');
+                boxes[current_box].style.backgroundColor = getRandomColor();
+
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === "ArrowLeft" && current_box > 0) {
+                        boxes[current_box].style.backgroundColor = 'gray';
+                        current_box--;
+                        boxes[current_box].style.backgroundColor = getRandomColor();
+                    } else if (event.key === "ArrowRight" && current_box < boxes.length - 1) {
+                        boxes[current_box].style.backgroundColor = 'gray';
+                        current_box++;
+                        boxes[current_box].style.backgroundColor = getRandomColor();
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="squares">
+                <div class ="box1"></div>
+                <div class ="box2"></div>
+                <div class ="box3"></div>
+                <div class ="box4"></div>
+                <div class ="box5"></div>
+        </div>
+    </body>
+</html>

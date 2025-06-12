@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Random Image Universe</title>
+
+<style>
+  /* リセット */
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;overflow-y:auto;}
+
+  /* すき間のないタイル状レイアウト */
+  #wall{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    gap:6px;
+    padding:6px;
+  }
+  #wall img{
+    width:100%;
+    height:100%;
+    aspect-ratio:1/1;        /* 正方形セルを保証 */
+    object-fit:cover;        /* はみ出し部分をカットして隙間ゼロ */
+    background:#eee;         /* 読み込み待ちのプレースホルダー */
+  }
+</style>
+</head>
+<body>
+  <div id="wall"></div>
+
+<script>
+/* ---------- 設定とユーティリティ ---------- */
+const wall      = document.getElementById('wall');
+const CELL_SIZE = 180;                               // 1タイル基準幅(px)
+const SERVICES  = [
+  // Picsum
+  (w,h) => `https://picsum.photos/${w}/${h}?random=${Math.random()}`,
+  // Unsplash (カテゴリをランダム選択)
+  (w,h) => {
+    const topics = ['city','nature','technology','architecture','animals','food'];
+    const q      = topics[Math.floor(Math.random()*topics.length)];
+    return `https://source.unsplash.com/random/${w}x${h}?${q}&sig=${Math.random()}`;
+  },
+  // LoremFlickr (複数タグでバラエティ)
+  (w,h) => {
+    const tags = ['landscape','ocean','night','abstract','mountain','sport'];
+    const q    = tags[Math.floor(Math.random()*tags.length)];
+    return `https://loremflickr.com/${w}/${h}/${q}?lock=${Math.floor(Math.random()*99999)}`;
+  }
+];
+
+/* ---------- 画像をまとめて追加する関数 ---------- */
+function addImages(batch=24){
+  for(let i=0;i<batch;i++){
+    const img  = document.createElement('img');
+    const w    = CELL_SIZE + Math.floor(Math.random()*80); // 180–259 の幅
+    const h    = w;                                        // 正方形
+    const src  = SERVICES[Math.floor(Math.random()*SERVICES.length)](w,h);
+    img.src    = src;
+    img.alt    = 'random photo';
+    wall.appendChild(img);
+  }
+}
+
+/* ---------- 初期ロード枚数を計算 ---------- */
+const area   = innerWidth*innerHeight;
+const perImg = (CELL_SIZE+6)**2;                 // ギャップを考慮
+addImages(Math.ceil(area/perImg)*1.5);
+
+/* ---------- 無限スクロール実装 ---------- */
+let loading = false;
+window.addEventListener('scroll',()=>{
+  if(loading) return;
+  const nearBottom = window.scrollY + innerHeight >= document.body.scrollHeight - 600;
+  if(nearBottom){
+    loading = true;
+    addImages(18);              // 追加
+    loading = false;
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS Protection Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.0/purify.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            line-height: 1.6;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #profile {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #profile p {
+            margin: 0 0 10px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h2>プロフィール登録（XSS対策あり）</h2>
+    <div class="form-container">
+        <label for="nickname">ニックネーム：</label>
+        <input type="text" id="nickname" placeholder="例：さくら">
+
+        <label for="bio">自己紹介：</label>
+        <textarea id="bio" rows="4" placeholder="例：こんにちは！<b>よろしく</b>お願いします！"></textarea>
+
+        <button onclick="showProfile()">表示</button>
+    </div>
+    <div id="profile">
+        <p id="nameArea"></p>
+        <p id="bioArea"></p>
+    </div>
+    <script>
+        function showProfile() {
+            var name = document.getElementById("nickname").value;
+            var bio = document.getElementById("bio").value;
+
+            var sanitizedName = DOMPurify.sanitize(name, { ALLOWED_TAGS: [] });
+            var sanitizedBio = DOMPurify.sanitize(bio, { ALLOWED_TAGS: ['b', 'i'] });
+
+            document.getElementById("nameArea").textContent = sanitizedName;
+            document.getElementById("bioArea").innerHTML = sanitizedBio;
+        }
+    </script>
+</body>
+</html>

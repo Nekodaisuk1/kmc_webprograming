@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            #form {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+            #label {
+                margin-bottom: 10px;
+                font-size: 16px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="form">
+            <p id="label">選択されているものは<span id="selectedLabel">ない</span>です</p>
+            <label><input type="radio" name="gender" value="男性">男性</label>
+            <label><input type="radio" name="gender" value="女性">女性</label>
+            <label><input type="radio" name="gender" value="その他">その他</label>
+        </div>
+        <script>
+            const radios = document.querySelectorAll('input[name="gender"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    const selected = document.querySelector('input[name="gender"]:checked');
+                    document.getElementById('selectedLabel').textContent = selected ? selected.value : "ない";
+                });
+            });
+        </script>
+    </body>
+</html>
+

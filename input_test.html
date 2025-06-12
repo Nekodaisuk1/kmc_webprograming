@@ -1,0 +1,17 @@
+<input type="text" id="myInput" placeholder="文字を入力してみて！">
+<p id="output"></p>
+
+<script>
+	const inputField = document.getElementById('myInput');
+	const output = document.getElementById('output');
+	
+	// inputイベント：毎回反応
+	inputField.addEventListener('input', () => {
+	    output.textContent = 'inputイベント発火！ 現在の値: ' + inputField.value;
+	});
+	
+	// changeイベント：入力完了後に反応
+	inputField.addEventListener('change', () => {
+	    alert('changeイベント発火！ 最終値は: ' + inputField.value);
+	});
+</script>

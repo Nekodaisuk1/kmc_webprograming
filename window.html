@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: #f0f0f0;
+                height: 1000px;
+            }
+            .btn {
+                width: 300px;
+                height: 200px;
+                background-color: #4CAF50;
+                color: rgb(255, 255, 255);
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 30px;
+                transition: none;
+            }
+            .btn span {
+                mix-blend-mode: difference;
+            }
+        </style>
+        <script>
+            function openNewTab() {
+                window.open("https://aidn.jp/nyancat/", "_blank");
+            }
+
+            window.addEventListener("scroll", () => {
+                const btn = document.querySelector(".btn");
+                const scrollPosition = window.scrollY;
+                const red = (scrollPosition % 256);
+                const green = ((scrollPosition + 100) % 256);
+                const blue = ((scrollPosition + 200) % 256);
+                btn.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+            });
+        </script>
+    </head>
+    <body>
+        <button class="btn" onclick="openNewTab()"><span>新しいタブを開く</span></button>
+    </body>
+</html>

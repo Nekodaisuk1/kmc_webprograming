@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: 0;
+                padding: 20px;
+                background-color: #f9f9f9;
+            }
+
+            button#add_contents {
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                font-size: 16px;
+                border-radius: 5px;
+                cursor: pointer;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transition: background-color 0.3s ease, transform 0.2s ease;
+            }
+
+            button#add_contents:hover {
+                background-color: #45a049;
+                transform: scale(1.05);
+            }
+
+            button#add_contents:active {
+                background-color: #3e8e41;
+                transform: scale(0.95);
+            }
+
+            div.card {
+                background-color: lightblue;
+                padding: 15px;
+                margin: 15px;
+                border: 1px solid #000;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                width: 80%;
+                max-width: 400px;
+                text-align: center;
+                font-size: 18px;
+                color: #333;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            button.remove-card {
+                background-color: #f44336;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                font-size: 14px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 10px;
+                transition: background-color 0.3s ease, transform 0.2s ease;
+            }
+
+            button.remove-card:hover {
+                background-color: #d32f2f;
+                transform: scale(1.05);
+            }
+
+            button.remove-card:active {
+                background-color: #b71c1c;
+                transform: scale(0.95);
+            }
+        </style>
+        <script>
+            let cardNumber = 0;
+
+            function clickAdd_Content() {
+                const newDiv = document.createElement('div');
+                newDiv.className = "card";
+
+                const contentText = document.createElement('p');
+                cardNumber++;
+                contentText.textContent = `Content Card ${cardNumber}`;
+                contentText.style.fontSize = "20px";
+                contentText.style.color = "#333";
+                contentText.style.fontWeight = "bold";
+                contentText.style.textAlign = "center";
+                contentText.style.margin = "0";
+
+                const removeButton = document.createElement('button');
+                removeButton.className = "remove-card";
+                removeButton.textContent = "Remove this card";
+                removeButton.onclick = () => newDiv.remove();
+
+                newDiv.appendChild(contentText);
+                newDiv.appendChild(removeButton);
+                document.body.appendChild(newDiv);
+
+                console.log(`Content Card ${cardNumber} added to the body.`);
+            }
+        </script>
+    </head>
+    <body>
+        <button id="add_contents" onclick="clickAdd_Content()">Add Contents</button>
+    </body>
+</html>

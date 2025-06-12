@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自己紹介ページ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .switch {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .switch:hover {
+            background-color: #0056b3;
+        }
+        .profile {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .profile img {
+            display: none; /* Hide the profile image */
+        }
+        .profile h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+        .profile p {
+            font-size: 1em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const lang = params.get('lang') || 'jp';
+
+        const content = {
+            jp: {
+                greeting: "自己紹介",
+                description: "私はWebプログラミングが大好きです。よろしくお願いします！",
+                switchText: "英語に切り替える",
+                profile: {
+                    name: "丹那 伊織",
+                    bio: "趣味はプログラミングと読書です。現在、フロントエンド開発を学んでいます。",
+                    image: "https://via.placeholder.com/150"
+                }
+            },
+            en: {
+                greeting: "About Me",
+                description: "I love web programming. Nice to meet you!",
+                switchText: "Switch to Japanese",
+                profile: {
+                    name: "Tanna Iori",
+                    bio: "My hobbies are programming and reading. Currently learning front-end development.",
+                    image: "https://via.placeholder.com/150"
+                }
+            }
+        };
+
+        const currentContent = content[lang];
+
+        document.body.innerHTML = `
+            <h1>${currentContent.greeting}</h1>
+            <p>${currentContent.description}</p>
+            <button class="switch" onclick="switchLanguage()">${currentContent.switchText}</button>
+            <div class="profile">
+                <h2>${currentContent.profile.name}</h2>
+                <p>${currentContent.profile.bio}</p>
+            </div>
+        `;
+
+        function switchLanguage() {
+            const newLang = lang === 'jp' ? 'en' : 'jp';
+            location.href = location.pathname + "?lang=" + newLang;
+        }
+    </script>
+</body>
+</html>

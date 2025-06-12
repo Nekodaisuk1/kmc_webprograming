@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: #f0f0f0;
+            }
+            .traffic_light {
+                width: 100px;
+                height: 300px;
+                background-color: #333;
+                border-radius: 10px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-around;
+                padding: 10px;
+                margin: 30px;
+            }
+            .red_light, .yellow_light, .green_light {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                opacity: 0.3; /* Default opacity for all lights */
+            }
+            .red_light {
+                background-color: red;
+                opacity: 1; /* Red light is initially lit */
+            }
+            .yellow_light {
+                background-color: yellow;
+            }
+            .green_light {
+                background-color: green;
+            }
+            .button {
+                margin-top: 20px;
+                padding: 20px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                height: 50px;
+                width: 50px;
+                background-color: #808386;
+                color: white;
+                text-align: center;
+                display: flex;
+                align-items: center; 
+                justify-content: center; 
+                border-radius: 50%;
+            }
+        </style>
+        <script>
+            let currentLight = 0;
+            let clickCount = 0;
+
+            function changeLight() {
+                const lights = document.querySelectorAll('.traffic_light div');
+                lights.forEach(light => light.style.opacity = '0.3');
+                lights[currentLight].style.opacity = '1';
+
+                currentLight = (currentLight + 1) % lights.length;
+
+                clickCount++;
+                const button = document.querySelector('.button');
+                button.textContent = clickCount;
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const button = document.querySelector('.button');
+                button.addEventListener('click', changeLight);
+            });
+        </script>
+    </head>
+    <body>
+        <div class="traffic_light">
+            <div class="red_light"></div>
+            <div class="yellow_light"></div>
+            <div class="green_light"></div>
+        </div>
+        <button class="button">0</button>
+    </body>
+</html>
